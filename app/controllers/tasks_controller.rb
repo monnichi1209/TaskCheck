@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
   def index
-    @tasks =Task.all
+    @tasks = Task.all
   end
 
   def show
@@ -14,7 +14,7 @@ class TasksController < ApplicationController
   def create
     @task = Task.new(task_params)
     if @task.save
-      redirect_to @task, notice: 'Task was succdessfully created.'
+      redirect_to @task, notice: 'Task was successfully created.'
     else
       render :new
     end
@@ -27,7 +27,9 @@ class TasksController < ApplicationController
   def update
     @task = Task.find(params[:id])
     if @task.update(task_params)
-      redirect_to @task, notice: 
+      redirect_to @task, notice: 'Task was successfully updated.'
+    else
+      render :edit
     end
   end
 
