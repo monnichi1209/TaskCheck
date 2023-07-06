@@ -8,5 +8,10 @@
   <%= @task.description %>
 </p>
 
+<p>
+  <strong>Expired at:</strong>
+  <%= @task.expired_at %>
+</p>
+
 <%= link_to 'Edit', edit_task_path(@task) %> |
 <%= link_to 'Back', tasks_path %>
