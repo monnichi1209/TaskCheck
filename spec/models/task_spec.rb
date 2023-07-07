@@ -18,7 +18,7 @@ RSpec.describe 'タスクモデル機能', type: :model do
 
     context 'タスクのタイトルと詳細に内容が記載されている場合' do
       it 'バリデーションが通る' do
-        task = Task.new(name: 'タイトル', description: '詳細', status: '未着手')
+        task = Task.new(name: 'タイトル', description: '詳細', status: '未着手', priority: '高')
         expect(task).to be_valid
       end
     end
@@ -53,5 +53,4 @@ RSpec.describe 'タスクモデル機能', type: :model do
       end
     end
   end
-
 end
