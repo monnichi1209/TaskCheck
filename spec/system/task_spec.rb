@@ -53,4 +53,36 @@ RSpec.describe 'タスク管理機能', type: :system do
       end
     end
   end
+
+  describe '検索機能' do
+    context 'タイトルで検索した場合' do
+      it '検索したタイトルを含むタスクが表示される' do
+        task1 = FactoryBot.create(:task, name: 'task1', status: '未着手')
+        task2 = FactoryBot.create(:task, name: 'task2', status: '完了')
+        visit tasks_path
+        fill_in 'name', with: 'task1'
+        click_on 'Search'
+        expect(page).to have_content 'task1'
+      end
+    end
+  
+    context 'ステータスで検索した場合' do
+      it '選択したステータスに該当するタスクが表示される' do
+        visit tasks_path
+        select '完了', from: 'status'
+        click_on 'Search'
+        expect(page).to have_content '完了'
+      end
+    end
+  
+    context 'タイトルとステータスの両方で検索した場合' do
+      it '検索したタイトルと選択したステータスに該当するタスクが表示される' do
+        visit tasks_path
+        fill_in 'name', with: 'task1'
+        select '未着手', from: 'status'
+        click_on 'Search'
+        expect(page).to have_content '未着手'
+      end
+    end
+  end
 end
