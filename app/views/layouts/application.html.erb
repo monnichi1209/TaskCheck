@@ -11,6 +11,10 @@
   </head>
 
   <body>
+    <header class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="#">TaskCheck</a>
+    </header>
+
     <% flash.each do |message_type, message| %>
       <div class="alert alert-<%= message_type %>">
         <%= message %>
@@ -18,5 +22,11 @@
     <% end %>
 
     <%= yield %>
+
+    <footer class="footer mt-auto py-3 bg-light">
+      <div class="container">
+        <span class="text-muted">TaskCheck &copy; 2023</span>
+      </div>
+    </footer>
   </body>
 </html>
