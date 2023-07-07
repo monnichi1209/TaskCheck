@@ -21,6 +21,9 @@ RSpec.describe 'タスク管理機能', type: :system do
   end
   
   describe '一覧表示機能' do
+    let!(:task1) { FactoryBot.create(:task, name: 'task1', created_at: Time.now - 1.day) }
+    let!(:task2) { FactoryBot.create(:task, name: 'task2', created_at: Time.now) }
+  
     context '一覧画面に遷移した場合' do
       it '作成済みのタスク一覧が表示される' do
       FactoryBot.create(:task, name: 'task')

@@ -1,0 +1,14 @@
+ja:
+  activerecord:
+    attributes:
+      task:
+        name: "タスク名"
+        description: "説明"
+    errors:
+      models:
+        task:
+          attributes:
+            name:
+              blank: "は必須項目です"
+            description:
+              blank: "は必須項目です"
