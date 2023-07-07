@@ -5,6 +5,7 @@ class TasksController < ApplicationController
     @tasks = @tasks.search_by_status(params[:status])
     @tasks = @tasks.sort_by_expired(params[:sort_expired])
     @tasks = @tasks.sort_by_priority(params[:sort_priority]) if params[:sort_priority]
+    @tasks = @tasks.page(params[:page]).per(10)
   end
   
   def show
