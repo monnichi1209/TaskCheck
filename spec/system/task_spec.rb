@@ -6,12 +6,16 @@ RSpec.describe 'タスク管理機能', type: :system do
         visit new_task_path
         fill_in 'task[name]', with: 'New Task'
         fill_in 'task[description]', with: 'New Task Content'
+        fill_in 'task[expired_at]', with: DateTime.now
+        select '未着手', from: 'task[status]' 
+        select '高', from: 'task[priority]' 
         find('.actions input[type="submit"]').click
 
-  
         expect(current_path).to eq task_path(Task.last)
         expect(page).to have_content 'New Task'
         expect(page).to have_content 'New Task Content'
+        expect(page).to have_content '未着手' 
+        expect(page).to have_content '高'
       end
     end
   end
@@ -22,23 +26,40 @@ RSpec.describe 'タスク管理機能', type: :system do
   
     context '一覧画面に遷移した場合' do
       it '作成済みのタスク一覧が表示される' do
-        FactoryBot.create(:task, name: 'task')
-        visit tasks_path
-        expect(page).to have_content 'task'
+      FactoryBot.create(:task, name: 'task')
+      visit tasks_path
+      expect(page).to have_content 'task'
       end
     end
 
-    context 'タスクが作成日時の降順に並んでいる場合' do
-      it '新しいタスクが一番上に表示される' do
-      
-        visit tasks_path
-
-        task_list = all('.task_row')
-        expect(task_list[0]).to have_content 'task2'
-        expect(task_list[1]).to have_content 'task1'
+    context '優先順位でソートするというリンクを押した場合' do
+      it '優先順位の高い順に並び替えられたタスク一覧が表示される' do
+        task1 = FactoryBot.create(:task, name: 'task1', priority: '低')
+        task2 = FactoryBot.create(:task, name: 'task2', priority: '高')
+    
+        visit tasks_path(sort_priority: "true")
+        tasks = all('tbody tr') 
+    
+        expect(tasks[0]).to have_content 'task2'
+        expect(tasks[1]).to have_content 'task1'
       end
     end
-  end
+
+
+
+    context '終了期限でソートするというリンクを押した場合' do
+      it '終了期限の降順に並び替えられたタスク一覧が表示される' do
+        task1 = FactoryBot.create(:task, name: 'task1', expired_at: DateTime.now + 1.day)
+        task2 = FactoryBot.create(:task, name: 'task2', expired_at: DateTime.now + 2.days)
+    
+        visit tasks_path(sort_expired: "true")
+        tasks = all('tbody tr') 
+    
+        expect(tasks[0]).to have_content 'task2'
+        expect(tasks[1]).to have_content 'task1'
+      end
+    end
+  end  
   
   describe '詳細表示機能' do
     context '任意のタスク詳細画面に遷移した場合' do
@@ -52,5 +73,36 @@ RSpec.describe 'タスク管理機能', type: :system do
       end
     end
   end
+
+  describe '検索機能' do
+    context 'タイトルで検索した場合' do
+      it '検索したタイトルを含むタスクが表示される' do
+        task1 = FactoryBot.create(:task, name: 'task1', status: '未着手')
+        task2 = FactoryBot.create(:task, name: 'task2', status: '完了')
+        visit tasks_path
+        fill_in 'name', with: 'task1'
+        click_on 'Search'
+        expect(page).to have_content 'task1'
+      end
+    end
   
+    context 'ステータスで検索した場合' do
+      it '選択したステータスに該当するタスクが表示される' do
+        visit tasks_path
+        select '完了', from: 'status'
+        click_on 'Search'
+        expect(page).to have_content '完了'
+      end
+    end
+  
+    context 'タイトルとステータスの両方で検索した場合' do
+      it '検索したタイトルと選択したステータスに該当するタスクが表示される' do
+        visit tasks_path
+        fill_in 'name', with: 'task1'
+        select '未着手', from: 'status'
+        click_on 'Search'
+        expect(page).to have_content '未着手'
+      end
+    end
+  end
 end

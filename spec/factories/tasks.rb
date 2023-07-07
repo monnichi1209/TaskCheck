@@ -1,6 +1,9 @@
 FactoryBot.define do
   factory :task do
-    name { 'test_name' }
+    sequence(:name) { |n| "task#{n}" }
     description { 'test_description' }
+    sequence(:expired_at) { |n| Time.now + n.days }
+    status { Task::STATUS.sample } 
+    priority { Task::PRIORITY.sample }
   end
 end
