@@ -1,3 +1,14 @@
+<%= form_with(url: tasks_path, method: :get) do |form| %>
+  <%= form.label :name %>
+  <%= form.text_field :name, value: params[:name] %>
+
+  <%= form.label :status %>
+  <%= form.select :status, Task::STATUS, { include_blank: '全て' }, { selected: params[:status] } %>
+
+  <%= form.submit 'Search' %>
+<% end %>
+
+
 <h1>Tasks</h1>
 
 <table>
