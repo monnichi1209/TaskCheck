@@ -7,12 +7,13 @@ RSpec.describe 'タスク管理機能', type: :system do
         fill_in 'task[name]', with: 'New Task'
         fill_in 'task[description]', with: 'New Task Content'
         fill_in 'task[expired_at]', with: DateTime.now
+        select '未着手', from: 'task[status]' 
         find('.actions input[type="submit"]').click
 
-  
         expect(current_path).to eq task_path(Task.last)
         expect(page).to have_content 'New Task'
         expect(page).to have_content 'New Task Content'
+        expect(page).to have_content '未着手' 
       end
     end
   end
