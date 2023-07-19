@@ -24,6 +24,7 @@ class UsersController < ApplicationController
     if @user != current_user
       redirect_to tasks_path, alert: 'Access denied'
     end
+    @tasks = @user.tasks
   end
   
 
