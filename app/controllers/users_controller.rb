@@ -1,6 +1,12 @@
 class UsersController < ApplicationController
+  skip_before_action :require_login, only: [:new, :create]
+
   def new
-    @user = User.new
+    if current_user
+      redirect_to tasks_path, alert: 'You are already logged in'
+    else
+      @user = User.new
+    end
   end
 
   def create
@@ -12,6 +18,14 @@ class UsersController < ApplicationController
       render :new
     end
   end
+
+  def show
+    @user = User.find(params[:id])
+    if @user != current_user
+      redirect_to tasks_path, alert: 'Access denied'
+    end
+  end
+  
 
   private
 

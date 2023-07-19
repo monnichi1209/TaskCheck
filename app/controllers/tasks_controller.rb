@@ -5,19 +5,20 @@ class TasksController < ApplicationController
     @tasks = @tasks.search_by_status(params[:status])
     @tasks = @tasks.sort_by_expired(params[:sort_expired])
     @tasks = @tasks.sort_by_priority(params[:sort_priority]) if params[:sort_priority]
+    @tasks = @tasks.where(user_id: current_user.id)
     @tasks = @tasks.page(params[:page]).per(10)
   end
   
   def show
-    @task = Task.find(params[:id])
-  end
+    @task = current_user.tasks.find(params[:id])
+  end  
 
   def new
     @task = Task.new
   end
 
   def create
-    @task = Task.new(task_params)
+    @task = current_user.tasks.build(task_params)
     if @task.save
       flash[:notice] = "Task was successfully created."
       redirect_to @task
@@ -25,13 +26,13 @@ class TasksController < ApplicationController
       render :new
     end
   end
-
+  
   def edit
-    @task = Task.find(params[:id])
+    @task = current_user.tasks.find(params[:id])
   end
 
   def update
-    @task = Task.find(params[:id])
+    @task = current_user.tasks.find(params[:id])
     if @task.update(task_params)
       flash[:notice] = "Task was successfully updated."
       redirect_to @task
@@ -41,7 +42,7 @@ class TasksController < ApplicationController
   end
 
   def destroy
-    @task = Task.find(params[:id])
+    @task = current_user.tasks.find(params[:id])
     @task.destroy
     redirect_to tasks_url, notice: 'Task was successfully destroyed.'
   end

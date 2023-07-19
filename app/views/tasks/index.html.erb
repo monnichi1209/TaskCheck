@@ -1,5 +1,6 @@
 <% if session[:user_id] %>
   <%= link_to 'Logout', logout_path, method: :delete %>
+  <%= link_to 'My Page', user_path(current_user) %>
 <% else %>
   <%= link_to 'Login', login_path %>
 <% end %>
