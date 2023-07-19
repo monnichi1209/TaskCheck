@@ -11,4 +11,6 @@ class Task < ApplicationRecord
   scope :search_by_status, -> (status) { where(status: status) if status.present? }
   scope :sort_by_expired, -> (sort_expired) { order(expired_at: :desc) if sort_expired.present? }
   scope :sort_by_priority, -> (sort_priority) { order(priority: :desc) if sort_priority.present? }
+  belongs_to :user
+
 end
