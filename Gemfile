@@ -5,6 +5,8 @@ ruby '3.0.1'
 
 gem 'kaminari'
 gem 'bootstrap', '~> 5.0.2'
+gem 'bcrypt', '~> 3.1.7'
+
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
