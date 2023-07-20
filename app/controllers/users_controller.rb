@@ -18,15 +18,16 @@ class UsersController < ApplicationController
       render :new
     end
   end
+  
 
   def show
     @user = User.find(params[:id])
     if @user != current_user
       redirect_to tasks_path, alert: 'Access denied'
-    end
+    else
     @tasks = @user.tasks
+    end
   end
-  
 
   private
 
@@ -34,4 +35,3 @@ class UsersController < ApplicationController
     params.require(:user).permit(:name, :email, :password, :password_confirmation)
   end
   end
-  
