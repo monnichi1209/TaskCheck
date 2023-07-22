@@ -8,9 +8,9 @@ class User < ApplicationRecord
   private
 
   def must_have_one_admin
-    if admin? && User.where(admin: true).count <= 1
+    if admin_was && will_save_change_to_admin? && User.where(admin: true).count <= 1
       errors.add(:base, "At least one admin must remain.")
-      throw(:abort) # 更新や削除の操作を中止する
+      throw(:abort)
     end
-  end
+  end  
 end
