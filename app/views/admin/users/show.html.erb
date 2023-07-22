@@ -5,5 +5,24 @@
   <%= @user.email %>
 </p>
 
+<h2>User's Tasks</h2> <!-- ユーザーのタスク一覧のタイトル -->
+<table>
+  <thead>
+    <tr>
+      <th>Task Name</th>
+      <th>Task Description</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @user.tasks.each do |task| %>
+      <tr>
+        <td><%= task.name %></td>
+        <td><%= task.description %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
 <%= link_to 'Edit', edit_admin_user_path(@user) %> |
 <%= link_to 'Back', admin_users_path %>
