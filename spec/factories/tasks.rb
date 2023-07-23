@@ -5,5 +5,7 @@ FactoryBot.define do
     sequence(:expired_at) { |n| Time.now + n.days }
     status { Task::STATUS.sample } 
     priority { Task::PRIORITY.sample }
+
+    association :user
   end
 end

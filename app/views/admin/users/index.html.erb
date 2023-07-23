@@ -1,0 +1,26 @@
+<%= link_to 'Logout', logout_path, method: :delete %>
+<%= link_to 'New User', new_admin_user_path %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Email</th>
+      <th>Tasks count</th>
+      <th>Role</th> <!-- ロール（Role）列を追加 -->
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.email %></td>
+        <td><%= user.tasks.count %></td>
+        <td><%= user.admin ? 'Admin' : 'General' %></td>
+        <td><%= link_to 'Show', [:admin, user] %></td>
+        <td><%= link_to 'Edit', [:edit, :admin, user] %></td>
+        <td><%= link_to 'Destroy', [:admin, user], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
