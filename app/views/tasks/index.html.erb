@@ -12,9 +12,12 @@
   <%= form.label :status %>
   <%= form.select :status, Task::STATUS, { include_blank: '全て' }, { selected: params[:status] } %>
 
-  <%= form.submit 'Search' %>
-<% end %>
+  <%= form.submit 'Search', id: 'task_search' %>
 
+  <%= form.label :label_id, "Label" %>
+  <%= form.collection_select :label_id, Label.all, :id, :name, prompt: "選択してください" %>
+  <%= form.submit "Search", id: 'label_search' %>
+<% end %>
 
 <h1>Tasks</h1>
 
@@ -23,7 +26,7 @@
     <tr>
       <th>Name</th>
       <th>Description</th>
-      <th>User</th> <!-- 追加 -->
+      <th>User</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -33,7 +36,7 @@
     <tr>
       <td class="p-2"><%= task.name %></td>
       <td class="p-2"><%= task.description %></td>
-      <td class="p-2"><%= task.user&.email %></td> <!-- 追加＆修正 -->
+      <td class="p-2"><%= task.user&.email %></td> 
       <td><%= link_to 'Show', task_path(task), class: 'btn btn-primary' %></td>
       <td><%= link_to 'Edit', edit_task_path(task), class: 'btn btn-success' %></td>
       <td><%= link_to 'Destroy', task_path(task), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %></td>
