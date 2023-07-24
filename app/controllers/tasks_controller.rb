@@ -1,6 +1,11 @@
 class TasksController < ApplicationController
   def index
-    @tasks = Task.all
+    if params[:label_id].present?
+      @tasks = Label.find(params[:label_id]).tasks
+    else
+      @tasks = Task.all
+    end
+
     @tasks = @tasks.search_by_name(params[:name])
     @tasks = @tasks.search_by_status(params[:status])
     @tasks = @tasks.sort_by_expired(params[:sort_expired])
@@ -8,7 +13,7 @@ class TasksController < ApplicationController
     @tasks = @tasks.where(user_id: current_user.id)
     @tasks = @tasks.page(params[:page]).per(10)
   end
-  
+
   def show
     @task = current_user.tasks.find(params[:id])
   end  
@@ -50,6 +55,6 @@ class TasksController < ApplicationController
   private
 
   def task_params
-    params.require(:task).permit(:name, :description, :expired_at, :status, :priority)
+  params.require(:task).permit(:name, :description, :expired_at, :status, :priority, label_ids: [])
   end
-end
+  end

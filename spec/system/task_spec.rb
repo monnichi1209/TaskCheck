@@ -112,7 +112,7 @@ RSpec.describe 'タスク管理機能', type: :system do
         task2 = FactoryBot.create(:task, name: 'task2', status: '完了')
         visit tasks_path
         fill_in 'name', with: 'task1'
-        click_on 'Search'
+        click_on 'task_search'
         expect(page).to have_content 'task1'
       end
     end
@@ -121,7 +121,7 @@ RSpec.describe 'タスク管理機能', type: :system do
       it '選択したステータスに該当するタスクが表示される' do
         visit tasks_path
         select '完了', from: 'status'
-        click_on 'Search'
+        click_on 'task_search'
         expect(page).to have_content '完了'
       end
     end
@@ -131,7 +131,7 @@ RSpec.describe 'タスク管理機能', type: :system do
         visit tasks_path
         fill_in 'name', with: 'task1'
         select '未着手', from: 'status'
-        click_on 'Search'
+        click_on 'task_search'
         expect(page).to have_content '未着手'
       end
     end
