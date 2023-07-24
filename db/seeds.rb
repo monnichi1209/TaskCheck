@@ -7,3 +7,10 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 User.create!(name: '初期ユーザー', email: 'initial_user@example.com', password: '12345678', password_confirmation: '12345678')
+
+# ラベルの初期データ
+labels = ['ラベル1', 'ラベル2', 'ラベル3']
+
+labels.each do |label|
+  Label.create!(name: label)
+end
